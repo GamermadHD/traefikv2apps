@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -25,7 +26,7 @@ services:
       - 'traefik.docker.network=proxy'
       - 'dockupdater.enable=true'
       - 'traefik.http.routers.nzbhydra2-rtr.entrypoints=https'
-      - 'traefik.http.routers.nzbhydra2-rtr.rule=Host(`nzbhydra.${DOMAIN}`)
+      - 'traefik.http.routers.nzbhydra2-rtr.rule=Host(`nzbhydra.${DOMAIN}`)'
       - 'traefik.http.routers.nzbhydra2-rtr.tls=true'
       - 'traefik.http.routers.nzbhydra2-rtr.tls.certresolver=dns-cloudflare'
       - 'traefik.http.routers.nzbhydra2-rtr.middlewares=chain-authelia@file'

@@ -8,6 +8,7 @@ composeoverwrite="compose/docker-compose.override.yml"
 anchor() {
 if [[ ! -x $(command -v rclone) ]];then curl https://rclone.org/install.sh | sudo bash >/dev/null 2>&1;fi
 echo "\
+
 anchors:" >> $basefolder/${typed}/config.yml
 IFS=$'\n'
 filter="$1"
@@ -31,7 +32,7 @@ echo "\
 
 triggers:
   manual:
-    priority: 0" $basefolder/${typed}/config.yml
+    priority: 0" >> $basefolder/${typed}/config.yml
 radarr=$(docker ps -aq --format={{.Names}} | grep -E 'radarr' 1>/dev/null 2>&1 && echo true || echo false)
 rrun=$(docker ps -aq --format={{.Names}} | grep 'rada')
 if [[ $radarr == "true" ]];then
@@ -92,8 +93,6 @@ echo "\
   $i:
     - url: http://$i:32400
       token: $token" >> $basefolder/${typed}/config.yml
-echo "\
-      - '/opt/appdata/$i:/data/$i:ro'" >> $basefolder/$composeoverwrite
    done
 fi
 
@@ -106,8 +105,6 @@ echo "\
   $i:
     - url: http://$i:8096
       token: $token" >> $basefolder/${typed}/config.yml
-echo "\
-      - '/opt/appdata/$i:/data/$i:ro'" >> $basefolder/$composeoverwrite
    done
 fi
 jelly=$(docker ps -aq --format={{.Names}} | grep -E 'jelly' 1>/dev/null 2>&1 && echo true || echo false)
@@ -119,8 +116,6 @@ echo "\
   $i:
     - url: http://$i:8096
       token: $token" >> $basefolder/${typed}/config.yml
-echo "\
-      - '/opt/appdata/$i:/data/$i:ro'" >> $basefolder/$composeoverwrite
    done
 fi
 }
@@ -132,7 +127,7 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-   read -ep "Enter a username for autoscan?: " USERAUTOSCAN
+   read -erp "Enter a username for autoscan?: " USERAUTOSCAN
 if [[ $USERAUTOSCAN != "" ]]; then
    if [[ $(uname) == "Darwin" ]]; then
       sed -i '' "s/<USERNAME>/$USERAUTOSCAN/g" $basefolder/${typed}/config.yml
@@ -152,13 +147,13 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EOF
-   read -esp "Enter a password for autoscan " $USERAUTOSCAN
+   read -erp "Enter a password for $USERAUTOSCAN: " PASSWORD
 
 if [[ $PASSWORD != "" ]]; then
    if [[ $(uname) == "Darwin" ]]; then
-      sed -i '' "s/<PASSWORD>/$USERAUTOSCAN/g" $basefolder/${typed}/config.yml
+      sed -i '' "s/<PASSWORD>/$PASSWORD/g" $basefolder/${typed}/config.yml
    else
-      sed -i "s/<PASSWORD>/$USERAUTOSCAN/g" $basefolder/${typed}/config.yml
+      sed -i "s/<PASSWORD>/$PASSWORD/g" $basefolder/${typed}/config.yml
    fi
 else
   echo "Password for autoscan cannot be empty"
@@ -166,10 +161,10 @@ else
 fi
 }
 runautoscan() {
-$(docker ps -aq --format={{.Names}} | grep -E 'arr' 1>/dev/null 2>&1)
-errorcode=$?
+    $($(command -v docker) ps -aq --format={{.Names}} | grep -E 'arr|ple|emb|jelly' 1>/dev/null 2>&1)
+    errorcode=$?
 if [[ $errorcode -eq 0 ]]; then
-   anchor && arrs && targets && addauthuser && addauthuser
+   anchor && arrs && targets && addauthuser && addauthpassword
 else
      app=${typed}
      for i in ${app}; do
@@ -187,7 +182,7 @@ tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     ❌ ERROR
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    Sorry we cannot find any runnings Arrs
+    Sorry we cannot find any running Arrs , Plex , Emby or Jellyfin 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
 fi

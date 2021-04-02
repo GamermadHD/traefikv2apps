@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -28,7 +29,7 @@ services:
       - 'traefik.docker.network=proxy'
       - 'dockupdater.enable=true'
       - 'traefik.http.routers.code-server-rtr.entrypoints=https'
-      - 'traefik.http.routers.code-server-rtr.rule=Host(`code-server.${DOMAIN}`)
+      - 'traefik.http.routers.code-server-rtr.rule=Host(`code-server.${DOMAIN}`)'
       - 'traefik.http.routers.code-server-rtr.tls=true'
       - 'traefik.http.routers.code-server-rtr.tls.certresolver=dns-cloudflare'
       - 'traefik.http.routers.code-server-rtr.middlewares=chain-authelia@file'

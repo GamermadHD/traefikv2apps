@@ -1,0 +1,54 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "doob187",
+      "name": "doob187",
+      "avatar_url": "https://avatars.githubusercontent.com/u/60312740?v=4",
+      "profile": "https://github.com/doob187",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    },
+    {
+      "login": "Hawkinzzz",
+      "name": "hawkinzzz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/24587652?v=4",
+      "profile": "https://github.com/Hawkinzzz",
+      "contributions": [
+        "infra"
+      ]
+    },
+    {
+      "login": "mrfret",
+      "name": "mrfret",
+      "avatar_url": "https://avatars.githubusercontent.com/u/72273384?v=4",
+      "profile": "https://github.com/mrfret",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "GamermadHD",
+      "name": "Keiran Tronier",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7513233?v=4",
+      "profile": "https://github.com/GamermadHD",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    }
+  ],
+  "badgeTemplate": "<a href=\"#contributors-\"><img alt=\"All Contributors\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg\"/></a>",
+  "contributorsPerLine": 7,
+  "projectName": "traefikv2apps",
+  "projectOwner": "doob187",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}

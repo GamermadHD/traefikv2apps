@@ -4,7 +4,7 @@
 
 minimum-age: 2m30s
 scan-delay: 15s
-scan-stats​: ​1m​
+scan-stats: 1m
 
 authentication:
   username: <USERNAME>

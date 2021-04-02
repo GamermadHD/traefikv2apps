@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -24,7 +25,7 @@ services:
       - 'traefik.docker.network=proxy'
       - 'dockupdater.enable=true'
       - 'traefik.http.routers.embystat-rtr.entrypoints=https'
-      - 'traefik.http.routers.embystat-rtr.rule=Host(`embystat.${DOMAIN}`)
+      - 'traefik.http.routers.embystat-rtr.rule=Host(`embystat.${DOMAIN}`)'
       - 'traefik.http.routers.embystat-rtr.tls=true'
       - 'traefik.http.routers.embystat-rtr.tls.certresolver=dns-cloudflare'
       - 'traefik.http.routers.embystat-rtr.middlewares=chain-authelia@file'

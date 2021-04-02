@@ -1,0 +1,9 @@
+.all-contributorsrc
+.yamllint.yaml
+LICENSE
+composer.phar
+/vendor/
+./github
+LICENSE
+*.md
+*.json

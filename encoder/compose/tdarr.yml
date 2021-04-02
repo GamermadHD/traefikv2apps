@@ -1,4 +1,5 @@
-version: "3.4"
+---
+version: '3'
 services:
   tdarr:
     container_name: 'tdarr'
@@ -36,7 +37,6 @@ services:
       - 'traefik.http.routers.tdarr-rtr.middlewares=chain-authelia@file'
       - 'traefik.http.routers.tdarr-rtr.service=tdarr-svc'
       - 'traefik.http.services.tdarr-svc.loadbalancer.server.port=8265'
-
 
   tdarr-node:
     container_name: 'tdarr-node'

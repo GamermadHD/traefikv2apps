@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -25,7 +26,7 @@ services:
       - 'traefik.docker.network=proxy'
       - 'dockupdater.enable=true'
       - 'traefik.http.routers.mellow4k-rtr.entrypoints=https'
-      - 'traefik.http.routers.mellow4k-rtr.rule=Host(`mellow4k.${DOMAIN}`)
+      - 'traefik.http.routers.mellow4k-rtr.rule=Host(`mellow4k.${DOMAIN}`)'
       - 'traefik.http.routers.mellow4k-rtr.tls=true'
       - 'traefik.http.routers.mellow4k-rtr.tls.certresolver=dns-cloudflare'
       - 'traefik.http.routers.mellow4k-rtr.middlewares=chain-authelia@file'

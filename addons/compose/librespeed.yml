@@ -1,11 +1,12 @@
+---
 version: '3'
 
 services:
   librespeed:
     hostname: 'librespeed'
-    image: ghcr.io/linuxserver/librespeed
-    container_name: librespeed
-    restart: unless-stopped
+    image: 'ghcr.io/linuxserver/librespeed'
+    container_name: 'librespeed'
+    restart: 'unless-stopped'
     environment:
       - 'PGID=${ID}'
       - 'PUID=${ID}'

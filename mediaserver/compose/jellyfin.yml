@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -10,7 +11,7 @@ services:
       - 'TZ=${TZ}'
       - 'UMASK=022'
       - 'DOCKER_MODS=linuxserver/mods:jellyfin-opencl-intel'
-      - 'JELLYFIN_PublishedServerUrl=${SERVERIP}_ID'
+      - 'JELLYFIN_PublishedServerUrl=${SERVERIP_ID}'
     image: 'ghcr.io/linuxserver/jellyfin'
     restart: 'unless-stopped'
     networks:
@@ -30,7 +31,7 @@ services:
       - '/etc/localtime:/etc/localtime:ro'
       - 'tmpfs:/transcode:rw'
       - '/opt/appdata/jellyfin:/config:rw'
-      - 'unionfs:/mnt'
+      - 'unionfs:/mnt:ro'
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'

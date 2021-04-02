@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -26,7 +27,7 @@ services:
       - 'traefik.docker.network=proxy'
       - 'dockupdater.enable=true'
       - 'traefik.http.routers.projectsend-rtr.entrypoints=https'
-      - 'traefik.http.routers.projectsend-rtr.rule=Host(`projectsend.${DOMAIN}`)
+      - 'traefik.http.routers.projectsend-rtr.rule=Host(`projectsend.${DOMAIN}`)'
       - 'traefik.http.routers.projectsend-rtr.tls=true'
       - 'traefik.http.routers.projectsend-rtr.tls.certresolver=dns-cloudflare'
       - 'traefik.http.routers.projectsend-rtr.middlewares=chain-authelia@file'

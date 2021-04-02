@@ -1,19 +1,20 @@
+---
 version: '3'
 
 services:
   netdata:
-    container_name: netdata
-    hostname: netdata
-    restart: unless-stopped
-    image: netdata/netdata
+    container_name: 'netdata'
+    hostname: 'netdata'
+    restart: 'unless-stopped'
+    image: 'netdata/netdata'
     networks:
       - proxy
     ports:
       - '127.0.0.1:19999:19999'
     cap_add:
-      - SYS_PTRACE
+      - 'SYS_PTRACE'
     security_opt:
-      - apparmor:unconfined
+      - 'apparmor:unconfined'
     environment:
       - 'PGID=${ID}'
       - 'PUID=${ID}'

@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -14,13 +15,18 @@ services:
       - 'PUID=${ID}'
       - 'TZ=${TZ}'
     image: 'ghcr.io/doob187/mount'
+    networks:
+      - proxy
     restart: 'unless-stopped'
+    labels:
+      - 'dockupdater.enable=false'
     security_opt:
       - 'apparmor=unconfined'
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
       - '/opt/appdata/mount:/config:rw'
       - '/mnt:/mnt:shared'
+      - '/var/run/docker.sock:/var/run/docker.sock'
 
 networks:
   proxy:

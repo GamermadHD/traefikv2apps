@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -26,7 +27,7 @@ services:
         mode: host
     volumes:
       - '/opt/appdata/emby:/config'
-      - 'unionfs:/mnt'
+      - 'unionfs:/mnt:ro'
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'

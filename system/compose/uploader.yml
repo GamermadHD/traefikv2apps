@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -25,7 +26,6 @@ services:
       - '/etc/localtime:/etc/localtime:ro'
       - '/opt/appdata/uploader:/config:rw'
       - 'unionfs:/mnt'
-    labels:
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'

@@ -1,3 +1,4 @@
+---
 version: '3'
 
 services:
@@ -19,13 +20,13 @@ services:
       - 'no-new-privileges:true'
     volumes:
       - '/opt/appdata/mstream:/config:rw'
-      - 'unionfs:/mnt'
+      - 'unionfs:/mnt:ro'
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'
       - 'dockupdater.enable=true'
       - 'traefik.http.routers.mstream-rtr.entrypoints=https'
-      - 'traefik.http.routers.mstream-rtr.rule=Host(`mstream.${DOMAIN}`)
+      - 'traefik.http.routers.mstream-rtr.rule=Host(`mstream.${DOMAIN}`)'
       - 'traefik.http.routers.mstream-rtr.tls=true'
       - 'traefik.http.routers.mstream-rtr.tls.certresolver=dns-cloudflare'
       - 'traefik.http.routers.mstream-rtr.middlewares=chain-authelia@file'
