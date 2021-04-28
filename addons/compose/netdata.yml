@@ -19,9 +19,9 @@ services:
       - 'PGID=${ID}'
       - 'PUID=${ID}'
     volumes:
-      - netdataconfig:/etc/netdata
-      - netdatalib:/var/lib/netdata
-      - netdatacache:/var/cache/netdata
+      - 'netdataconfig:/etc/netdata'
+      - 'netdatalib:/var/lib/netdata'
+      - 'netdatacache:/var/cache/netdata'
       - '/etc/passwd:/host/etc/passwd:ro'
       - '/etc/group:/host/etc/group:ro'
       - '/proc:/host/proc:ro'

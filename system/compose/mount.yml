@@ -14,7 +14,7 @@ services:
       - 'PGID=${ID}'
       - 'PUID=${ID}'
       - 'TZ=${TZ}'
-    image: 'ghcr.io/doob187/mount'
+    image: 'ghcr.io/doob187/mountv2'
     networks:
       - proxy
     restart: 'unless-stopped'

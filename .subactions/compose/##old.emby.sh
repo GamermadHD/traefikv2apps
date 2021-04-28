@@ -9,7 +9,6 @@
 embydb="/opt/appdata/emby/data/library.db"
 embydocker"emby"
 emby=$($(command -v docker) ps -aq --format {{.Names}} | grep -qE 'emby' && echo true || echo false)
-
 if [[ ! -x $(command -v sqlite3) ]]; then apt install sqlite3 -yqq 1>/dev/null 2>&1; fi
 if [[ $emby == "true" ]]; then
     $(command -v docker) stop "${embydocker}"
@@ -18,3 +17,4 @@ if [[ $emby == "true" ]]; then
     chown 1000:1000 "$embydb"
     $(command -v docker) start "${embydocker}"
 fi
+#EOF

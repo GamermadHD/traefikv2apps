@@ -42,6 +42,36 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "dan3805",
+      "name": "dan3805",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35934387?v=4",
+      "profile": "https://github.com/dan3805",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    },
+    {
+      "login": "Nossersvinet",
+      "name": "Nossersvinet",
+      "avatar_url": "https://avatars.githubusercontent.com/u/83166809?v=4",
+      "profile": "https://github.com/Nossersvinet",
+      "contributions": [
+        "doc",
+        "code"
+      ]
+    },
+    {
+      "login": "townsmcp",
+      "name": "townsmcp",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14061617?v=4",
+      "profile": "https://github.com/townsmcp",
+      "contributions": [
+        "test",
+        "bug"
+      ]
     }
   ],
   "badgeTemplate": "<a href=\"#contributors-\"><img alt=\"All Contributors\" src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg\"/></a>",

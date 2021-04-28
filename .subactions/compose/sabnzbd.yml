@@ -2,7 +2,6 @@
 #
 # Title:      SabNZBD Subtask
 # Author(s):  MrDoob
-# URL:        https://sudobox.io
 # GNU:        General Public License v3.0
 ################################################################################
 ---
@@ -13,25 +12,20 @@
       set_fact:
         app: 'sabnzbd'
         path: '/mnt'
-
     - name: 'Register Domain'
       shell: cat /etc/hosts | grep 127.0.0.1 | tail -n 1 | awk '{print $2}'
       register: domain
-
     - name: 'Checking for existing app data'
       stat:
         path: /opt/appdata/{{app}}/sabnzbd.ini
       register: inicheck
-
     - name: 'Waiting for {{app}} to initialize'
       wait_for:
         path: '/opt/appdata/{{app}}/sabnzbd.ini'
         state: present
         delay: 5
-
     - name: 'Stopping {{app}}'
       shell: 'docker stop {{app}}'
-
     - name: 'Set download_dir when incomplete is undefined'
       ini_file:
         path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -39,7 +33,6 @@
         option: download_dir
         value: '{{path}}/incomplete/nzb'
         state: present
-
     - name: 'Set complete_dir'
       ini_file:
         path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -47,7 +40,6 @@
         option: complete_dir
         value: '{{path}}/downloads/nzb'
         state: present
-
     - name: 'Set nzb watch location'
       ini_file:
         path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -55,7 +47,6 @@
         option: dirscan_dir
         value: '{{path}}/nzb/watch'
         state: present
-
     - name: 'Set nzb backup location'
       ini_file:
         path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -63,7 +54,6 @@
         option: nzb_backup_dir
         value: '{{path}}/nzb'
         state: present
-
     - name: 'set script_dir'
       ini_file:
         path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -71,7 +61,6 @@
         option: script_dir
         value: scripts
         state: present
-
     - name: 'Configuring {{app}} for first time use'
       block:
         - name: 'Set host_whitelist'
@@ -81,7 +70,6 @@
             option: host_whitelist
             value: 'sabnzbd.{{domain.stdout}},'
             state: present
-
         - name: 'Set direct_unpack'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -89,7 +77,6 @@
             option: direct_unpack
             value: '1'
             state: present
-
         - name: 'Set ignore_samples'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -97,7 +84,6 @@
             option: ignore_samples
             value: '1'
             state: present
-
         - name: 'Set max logging lines'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -105,7 +91,6 @@
             option: max_log_size
             value: '524'
             state: present
-
         - name: 'Set max logging days'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -113,7 +98,6 @@
             option: log_backups
             value: '1'
             state: present
-
         - name: 'set unwanted_extensions'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -121,7 +105,6 @@
             option: unwanted_extensions
             value: exe, com, bat, sh, iso, m2ts, mt2s
             state: present
-
         - name: 'set cleanup_list'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -129,7 +112,6 @@
             option: cleanup_list
             value: nfo, exe, com, bat, txt, doc, xls, xlxs, docx, doc, jpg, jeg, gif, png
             state: present
-
         - name: 'set Cache Limit to 4G'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -137,7 +119,6 @@
             option: cache_limit
             value: 4G
             state: present
-
         - name: 'set action_on_unwanted_extensions'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -145,7 +126,6 @@
             option: action_on_unwanted_extensions
             value: '2'
             state: present
-
         - name: 'set pause_on_pwrar - aborts encrypted rar rather than pausing'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -153,7 +133,6 @@
             option: pause_on_pwrar
             value: '2'
             state: present
-
         - name: 'set new_nzb_on_failure - try a new nzb if it fails'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -161,7 +140,6 @@
             option: new_nzb_on_failure
             value: '1'
             state: present
-
         - name: 'set flat_unpack'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -169,7 +147,6 @@
             option: flat_unpack
             value: '1'
             state: present
-
         - name: 'set download_free'
           ini_file:
             path: '/opt/appdata/{{app}}/sabnzbd.ini'
@@ -178,4 +155,3 @@
             value: '25G'
             state: present
       when: inicheck.stat.exists
-

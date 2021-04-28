@@ -20,14 +20,14 @@ done
 headinterface() {
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 App Head Section Menu
+    🚀  App Head Section Menu
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-    [ 1 ] Install Apps
-    [ 2 ] Remove  Apps
-    [ 3 ] Backup  Apps
+    [ 1 ] Install  Apps
+    [ 2 ] Remove   Apps
+    [ 3 ] Backup   Apps
+    [ 4 ] Restore  Apps
 
-    [ 4 ] Create a Backup Docker-Compose File
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     [ EXIT or Z ] - Exit || [ help or HELP ] - Help
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -36,8 +36,8 @@ EOF
   case $headsection in
     1) clear && interface ;;
     2) clear && removeapp ;;
-    3) clear && backupdocker ;;
-    4) clear && backupcomposer && clear && headinterface ;;
+    3) clear && backupstorage ;;
+    4) clear && restorestorage ;;
     help|HELP|Help) clear && sectionhelplayout ;;
     Z|z|exit|EXIT|Exit|close) exit ;;
     *) appstartup ;;
@@ -47,7 +47,7 @@ interface() {
 buildshow=$(ls -1p /opt/apps/ | grep '/$' | $(command -v sed) 's/\/$//')
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 App Category Menu
+    🚀  App Category Menu
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $buildshow
@@ -69,7 +69,7 @@ section=${section}
 buildshow=$(ls -1p /opt/apps/${section}/compose/ | sed -e 's/.yml//g' )
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 Apps to install under ${section} category
+    🚀  Apps to install under ${section} category
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $buildshow
@@ -90,7 +90,7 @@ sectionhelplayout() {
 helpshowsection=$(ls -1p /opt/apps/.help/ | sed -e 's/.me//g' )
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 Help
+    🚀  Help
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $helpshowsection
@@ -110,7 +110,7 @@ showhelpsection() {
 showhelptypedsection=$(cat /opt/apps/.help/${typed}.me )
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 Help for ${typed}
+    🚀  Help for ${typed}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $showhelptypedsection
@@ -127,7 +127,7 @@ section=${section}
 helpshow=$(ls -1p /opt/apps/${section}/.help/ | sed -e 's/.me//g' )
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 Help for ${section}
+    🚀  Help for ${section}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $helpshow
@@ -148,7 +148,7 @@ section=${section}
 showhelptyped=$(cat /opt/apps/${section}/.help/${typed}.me )
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 Help for ${typed}
+    🚀  Help for ${typed}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $showhelptyped
@@ -160,44 +160,212 @@ EOF
   read -erp "Confirm Info | PRESS [ENTER] " typed </dev/tty
   clear && helplayout
 }
-backupdocker() {
-rundockers=$(docker ps -aq --format '{{.Names}}' | sed '/^$/d')
+### backup docker ###
+backupstorage() {
+storagefolder=$(ls -1p /mnt/unionfs/appbackups/ | grep '/$' | $(command -v sed) 's/\/$//')
+if [[ $storagefolder == "" ]];then 
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 Backup running Dockers
+    🚀  Backup folder
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ You need to set a backup folder
+ 
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   [ EXIT or Z ] - Exit
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+  read -erp "↪️ Type Name to set the Backup-Folder and Press [ENTER]: " storage </dev/tty
+  if [[ $storage == "exit" || $storage == "Exit" || $storage == "EXIT" || $storage  == "z" || $storage == "Z" ]];then clear && interface;fi
+  if [[ $storage == "" ]];then clear && backupstorage;fi
+  if [[ $storage != "" ]];then $(command -v mkdir) -p /mnt/unionfs/appbackups/${storage};fi
+     teststorage=$(ls -1p /mnt/unionfs/appbackups/ | grep '/$' | $(command -v sed) 's/\/$//' | grep -x $storage)
+  if [[ $teststorage == $storage ]];then backupdocker;fi
+else
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    🚀  Backup folder
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$storagefolder
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   [ EXIT or Z ] - Exit
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+  read -erp "↪️ Type Name to set the Backup-Folder and Press [ENTER]: " storage </dev/tty
+  if [[ $storage == "exit" || $storage == "Exit" || $storage == "EXIT" || $storage  == "z" || $storage == "Z" ]];then clear && interface;fi
+  if [[ $storage == "" ]];then clear && backupstorage;fi
+     teststorage=$(ls -1p /mnt/unionfs/appbackups/ | grep '/$' | $(command -v sed) 's/\/$//' | grep -x $storage)
+  if [[ $teststorage == $storage ]];then backupdocker;fi
+  if [[ $storage != "" ]];then 
+     $(command -v mkdir) -p /mnt/unionfs/appbackups/${storage}
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    🚀  New Backup folder set to $storage
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+sleep 3
+backupdocker
+  fi
+fi
+}
+backupdocker() {
+storage=${storage}
+rundockers=$(docker ps -aq --format '{{.Names}}' | sed '/^$/d' | grep -v 'trae' | grep -v 'auth')
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    🚀  Backup running Dockers
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 $rundockers
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    [ EXIT or Z ] - Exit
+   [ all = Backup all running Container ]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   [ EXIT or Z ] - Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -erp "↪️ Type App-Name to Backup and Press [ENTER]: " typed </dev/tty
   if [[ $typed == "exit" || $typed == "Exit" || $typed == "EXIT" || $typed  == "z" || $typed == "Z" ]];then clear && interface;fi
-  if [[ $typed == "" ]];then clear && install;fi
+  if [[ $typed == "" ]];then clear && backupdocker;fi
   if [[ $typed == "help" || $typed == "HELP" ]];then clear && helplayout;fi
+  if [[ $typed == "all" || $typed == "All" || $typed == "ALL" ]];then clear && backupall;fi
      builddockers=$(docker ps -aq --format '{{.Names}}' | sed '/^$/d' | grep -x $typed)
   if [[ $builddockers == "" ]];then clear && backupdocker;fi
   if [[ $builddockers == $typed ]];then clear && runbackup;fi
 }
+backupall() {
+storage=${storage}
+$(command -v docker) system prune -af 1>/dev/null 2>&1
+$(command -v docker) pull ghcr.io/doob187/docker-remote:latest 1>/dev/null 2>&1
+dockers=$(docker ps -aq --format '{{.Names}}' | sed '/^$/d' | grep -v 'trae' | grep -v 'auth')
+for i in ${dockers};do
+   echo "Backup-tar.gz for $i is running" && $(command -v docker) run --rm -v /opt/appdata:/backup/$i -v /mnt:/mnt ghcr.io/doob187/docker-remote:latest backup $i ${storage} 1>/dev/null 2>&1
+done
+$(command -v docker) system prune -af 1>/dev/null 2>&1
+clear && backupdocker
+}
 runbackup() {
+updatecompose
+storage=${storage}
 typed=${typed}
 basefolder="/opt/appdata"
 if [[ -d $basefolder/${typed} ]];then
    $(command -v docker) system prune -af 1>/dev/null 2>&1
    $(command -v docker) pull ghcr.io/doob187/docker-remote:latest 1>/dev/null 2>&1
-   $(command -v docker) run --rm -v /opt/appdata:/backup/${typed} -v /mnt:/mnt ghcr.io/doob187/docker-remote:latest backup ${typed} 
+   $(command -v docker) run --rm -v /opt/appdata:/backup/${typed} -v /mnt:/mnt ghcr.io/doob187/docker-remote:latest backup ${typed} ${storage}
    $(command -v find) $basefolder/${typed} -exec $(command -v chown) -hR 1000:1000 {} \;
    $(command -v docker) system prune -af 1>/dev/null 2>&1
-   clear && backupcomposer && backupdocker
+   clear && backupdocker
 else
-   clear && backupcomposer && backupdocker
+   clear && backupdocker
+fi
+}
+### restore backup ###
+restorestorage() {
+storage=$(ls -1p /mnt/unionfs/appbackups/ | grep '/$' | $(command -v sed) 's/\/$//')
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    🚀  Restore folder
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$storage
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   [ EXIT or Z ] - Exit
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+  read -erp "↪️ Type Name to set the Backup-Folder and Press [ENTER]: " storage </dev/tty
+  if [[ $storage == "exit" || $storage == "Exit" || $storage == "EXIT" || $storage  == "z" || $storage == "Z" ]];then clear && interface;fi
+  if [[ $storage == "" ]];then clear && backupstorage;fi
+     teststorage=$(ls -1p /mnt/unionfs/appbackups/ | grep '/$' | $(command -v sed) 's/\/$//' | grep -x $storage)
+  if [[ $teststorage == $storage ]];then clear && restoredocker;fi
+}
+restoredocker() {
+storage=${storage}
+runrestore=$(ls -1p /mnt/unionfs/appbackups/${storage} | $(command -v sed) -e 's/.tar.gz//g' | grep -v 'trae' | grep -v 'auth')
+tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    🚀  Restore Dockers
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+$runrestore
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    [ EXIT or Z ] - Exit
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+  read -erp "↪️ Type App-Name to Restore and Press [ENTER]: " typed </dev/tty
+  if [[ $typed == "exit" || $typed == "Exit" || $typed == "EXIT" || $typed  == "z" || $typed == "Z" ]];then clear && interface;fi
+  if [[ $typed == "" ]];then clear && restoredocker;fi
+  if [[ $typed == "help" || $typed == "HELP" ]];then clear && helplayout;fi
+  if [[ $typed == "all" || $typed == "All" || $typed == "ALL" ]];then clear && restoreall;fi
+     builddockers=$(ls -1p /mnt/unionfs/appbackups/${storage} | $(command -v sed) -e 's/.tar.gz//g' | grep -x $typed)
+  if [[ $builddockers == "" ]];then clear && restoredocker;fi
+  if [[ $builddockers == $typed ]];then clear && runrestore;fi
+}
+restoreall() {
+storage=${storage}
+apps=$(ls -1p /mnt/unionfs/appbackups/${storage} | $(command -v sed) -e 's/.tar.gz//g' | grep -v 'trae' | grep -v 'auth')
+for i in ${apps};do
+   updatecompose
+   basefolder="/opt/appdata"
+   if [[ ! -d $basefolder/$i ]];then
+      echo "Create folder for $i is running"  
+      folder=$basefolder/$i
+      for ii in ${folder}; do
+          $(command -v mkdir) -p $ii
+          $(command -v find) $ii -exec $(command -v chmod) a=rx,u+w {} \;
+          $(command -v find) $ii -exec $(command -v chown) -hR 1000:1000 {} \;
+      done
+   fi
+   $(command -v docker) system prune -af 1>/dev/null 2>&1
+   $(command -v docker) pull ghcr.io/doob187/docker-remote:latest 1>/dev/null 2>&1
+   echo "Restore for $i is running" && $(command -v docker) run --rm -v /opt/appdata:/restore -v /mnt:/mnt ghcr.io/doob187/docker-remote:latest restore $i ${storage}
+done
+clear && restoreall
+}
+runrestore() {
+updatecompose
+typed=${typed}
+storage=${storage}
+basefolder="/opt/appdata"
+compose="compose/docker-compose.yml"
+if [[ ! -d $basefolder/${typed} ]];then
+   folder=$basefolder/${typed}
+   for i in ${folder}; do
+       $(command -v mkdir) -p $i
+       $(command -v find) $i -exec $(command -v chmod) a=rx,u+w {} \;
+       $(command -v find) $i -exec $(command -v chown) -hR 1000:1000 {} \;
+   done
+fi
+builddockers=$(ls -1p /mnt/unionfs/appbackups/${storage} | $(command -v sed) -e 's/.tar.gz//g' | grep -x $typed)
+if [[ $builddockers == $typed ]];then
+   $(command -v docker) system prune -af 1>/dev/null 2>&1
+   $(command -v docker) pull ghcr.io/doob187/docker-remote:latest 1>/dev/null 2>&1
+   echo "Restore for ${typed} is running" && $(command -v docker) run --rm -v /opt/appdata:/restore -v /mnt:/mnt ghcr.io/doob187/docker-remote:latest restore ${typed} ${storage}
+   appfolder=/opt/apps
+   HEADSECTION=${HEADSECTION:-/}
+   IGNORE="! -path '**.subactions/**'"
+   mapfile -t files < <(eval find ${appfolder} -type f -name $typed.yml ${IGNORE})
+   for i in "${files[@]}"; do
+       section=$(dirname "${i}" | sed "s#${appfolder}${HEADSECTION}##g" | sed 's/[[:alnum:]]*$//' | sed 's|[/y]||g' )
+   done
+   section=${section}
+   typed=${typed}
+   runinstall
+else
+   clear && restoredocker
 fi
 }
 runinstall() {
+  section=${section}
+  typed=${typed}
+  updatecompose
   compose="compose/docker-compose.yml"
   composeoverwrite="compose/docker-compose.override.yml"
+  storage="/mnt/downloads"
   appfolder="/opt/apps"
   basefolder="/opt/appdata"
     tee <<-EOF
@@ -213,9 +381,9 @@ EOF
   if [[ ! -f $basefolder/$compose ]];then $(command -v rsync) $appfolder/${section}/compose/${typed}.yml $basefolder/$compose -aq --info=progress2 -hv;fi
   if [[ ! -x $(command -v lshw) ]];then $(command -v apt) install lshw -yqq >/dev/null 2>&1;fi
   if [[ ${section} == "mediaserver" || ${section} == "encoder" ]];then
-     gpu="i915 nvidia"
-     for i in ${gpu}; do
-        TDV=$($(command -v lshw) -C video | grep -qE $i && echo true || echo false)
+     gpu="Intel NVIDIA"
+     for i in ${gpu};do
+        TDV=$(lspci | grep -i --color 'vga\|3d\|2d' | grep -E $i 1>/dev/null 2>&1 && echo true || echo false)
         if [[ $TDV == "true" ]];then $(command -v rsync) $appfolder/${section}/compose/gpu/$i.yml $basefolder/$composeoverwrite -aq --info=progress2 -hv;fi
      done
      if [[ -f $basefolder/$composeoverwrite ]];then
@@ -248,6 +416,46 @@ EOF
   if [[ ${section} == "addons" && ${typed} == "vnstat" ]];then vnstatcheck;fi
   if [[ ${section} == "addons" && ${typed} == "autoscan" ]];then autoscancheck;fi
   if [[ ${section} == "mediaserver" && ${typed} == "plex" ]];then plexclaim;fi
+  if [[ ${section} == "downloadclients" && ${typed} == "jdownloader2" ]];then
+     folder=$storage/${typed}
+     for i in ${folder}; do
+         $(command -v mkdir) -p $i
+         $(command -v find) $i -exec $(command -v chmod) a=rx,u+w {} \;
+         $(command -v find) $i -exec $(command -v chown) -hR 1000:1000 {} \;
+     done
+  fi
+  if [[ ${section} == "mediamanager" && ${typed} == "readarr" ]];then
+     folder=$storage/books
+     for i in ${folder}; do
+         $(command -v mkdir) -p $i
+         $(command -v find) $i -exec $(command -v chmod) a=rx,u+w {} \;
+         $(command -v find) $i -exec $(command -v chown) -hR 1000:1000 {} \;
+     done
+  fi
+  if [[ ${section} == "system" && ${typed} == "mount" ]];then
+     checkmnt=$($(command -v mountpoint) -q /mnt/unionfs && echo true || echo false)
+     mount=$($(command -v docker) ps -aq --format={{.Names}} | grep -x 'mount')
+     if [[ ${checkmnt} == "true" && ${mount} == "mount" ]];then $(command -v docker) stop mount 1>/dev/null 2>&1 && $(command -v fusermount) -uzq /mnt/unionfs 1>/dev/null 2>&1;fi
+     if [[ ${checkmnt} == "false" && ${mount} == "mount" ]];then $(command -v docker) stop mount 1>/dev/null 2>&1 && $(command -v fusermount) -uzq /mnt/unionfs 1>/dev/null 2>&1;fi
+     if [[ ${checkmnt} == "false" && ${mount} == "" ]];then $(command -v fusermount) -uzq /mnt/unionfs 1>/dev/null 2>&1;fi
+  fi
+  if [[ ${section} == "downloadclients" && ${typed} == "youtubedl-material" ]];then
+     folder="appdata audio video subscriptions"
+     for i in ${folder}; do
+         $(command -v mkdir) -p $basefolder/${typed}/$i
+         $(command -v find) $basefolder/${typed}/$i -exec $(command -v chmod) a=rx,u+w {} \;
+         $(command -v find) $basefolder/${typed}/$i -exec $(command -v chown) -hR 1000:1000 {} \;
+     done
+     folder=$storage/youtubedl
+     for i in ${folder}; do
+         $(command -v mkdir) -p $i
+         $(command -v find) $i -exec $(command -v chmod) a=rx,u+w {} \;
+         $(command -v find) $i -exec $(command -v chown) -hR 1000:1000 {} \;
+     done
+  fi
+  if [[ ${typed} == "bitwarden" ]];then
+     if [[ -f $appfolder/.subactions/compose/${typed}.sh ]];then $(command -v bash) $appfolder/.subactions/compose/${typed}.sh;fi
+  fi
   if [[ -f $basefolder/$compose ]];then
      $(command -v cd) $basefolder/compose/
      $(command -v docker-compose) config 1>/dev/null 2>&1
@@ -263,13 +471,19 @@ EOF
   read -erp "Confirm Info | PRESS [ENTER]" typed </dev/tty
   clear && interface
      else
-       $(command -v docker-compose) pull ${typed} 1>/dev/null 2>&1
-       $(command -v docker-compose) up -d --force-recreate 1>/dev/null 2>&1
+       composer=$(command -v docker-compose)
+       for i in ${composer};do
+          $i pull ${typed} 1>/dev/null 2>&1
+		  $i up -d --force-recreate 1>/dev/null 2>&1
+          $(command -v chown) -cR 1000:1000 $basefolder/${typed} 1>/dev/null 2>&1
+          $i restart 1>/dev/null 2>&1
+       done
      fi
   fi
   if [[ ${section} == "mediaserver" ]];then subtasks;fi
   if [[ ${section} == "downloadclients" ]];then subtasks;fi
-  if [[ ${typed} == "overseerr" || ${typed} == "petio" || ${typed} == "heimdall" || ${typed} == "librespeed" ]];then subtasks;fi
+  if [[ ${typed} == "overseerr" ]];then overserrf2ban;fi
+  if [[ ${typed} == "overseerr" || ${typed} == "petio" || ${typed} == "heimdall" || ${typed} == "librespeed" || ${typed} == "tautulli" ]];then subtasks;fi
      $($(command -v docker) ps -aq --format '{{.Names}}{{.State}}' | grep -qE ${typed}running 1>/dev/null 2>&1)
      errorcode=$?
   if [[ $errorcode -eq 0 ]];then
@@ -277,16 +491,26 @@ EOF
   tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     ${typed} has successfully deployed and is now working
-
     https://${typed}.${DOMAIN}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-  read -erp "Confirm Info | PRESS [ENTER]" typed </dev/tty
+  sleep 10
   clear
 fi
 if [[ -f $basefolder/$compose ]];then $(command -v rm) -rf $basefolder/$compose;fi
 if [[ -f $basefolder/$composeoverwrite ]];then $(command -v rm) -rf $basefolder/$composeoverwrite;fi
-backupcomposer && clear && install
+clear && install
+}
+overserrf2ban() {
+OV2BAN="/etc/fail2ban/filter.d/overseerr.local"
+if [[ ! -f $OV2BAN ]];then
+cat << EOF | tee -a $OV2BAN
+[Definition]
+failregex = .*\[info\]\[Auth\]\: Failed sign-in attempt.*"ip":"<HOST>"
+EOF
+fi
+f2ban=$($(command -v systemctl) is-active fail2ban | grep -qE 'active' && echo true || echo false)
+if [[ $f2ban != "false" ]];then $(command -v systemctl) reload-or-restart fail2ban.service 1>/dev/null 2>&1;fi
 }
 vnstatcheck() {
   if [[ ! -x $(command -v vnstat) ]];then $(command -v apt) install vnstat -yqq;fi
@@ -304,13 +528,10 @@ compose="compose/docker-compose.yml"
 basefolder="/opt/appdata"
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 PLEX CLAIM
+    🚀  PLEX CLAIM
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
     Please claim your Plex server
-
     https://www.plex.tv/claim/
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
   read -erp "Enter your PLEX CLAIM CODE : " PLEXCLAIM
@@ -336,7 +557,6 @@ conf=$basefolder/authelia/configuration.yml
 confnew=$basefolder/authelia/.new-configuration.yml.new
 confbackup=$basefolder/authelia/.backup-configuration.yml.backup
 authadd=$(cat $conf | grep -E ${typed})
-
   if [[ ! -x $(command -v ansible) || ! -x $(command -v ansible-playbook) ]];then $(command -v apt) ansible --reinstall -yqq;fi
   if [[ -f $appfolder/.subactions/compose/${typed}.yml ]];then $(command -v ansible-playbook) $appfolder/.subactions/compose/${typed}.yml;fi
      $(grep "model name" /proc/cpuinfo | cut -d ' ' -f3- | head -n1 |grep -qE 'i7|i9' 1>/dev/null 2>&1)
@@ -345,52 +565,29 @@ authadd=$(cat $conf | grep -E ${typed})
         if [[ -f $appfolder/.subactions/compose/${typed}.sh ]];then $(command -v bash) $appfolder/.subactions/compose/${typed}.sh;fi
      fi
   if [[ $authadd == "" ]];then
-     if [[ ${section} == "mediaserver" || ${section} == "request" || ${typed} == "librespeed" ]];then
+     if [[ ${section} == "mediaserver" || ${section} == "request" || ${typed} == "librespeed" || ${typed} == "xteve" ]];then
      { head -n 38 $conf;
      echo "\
     - domain: ${typed}.${DOMAIN}
       policy: bypass"; tail -n +39 $conf; } > $confnew
         if [[ -f $conf ]];then $(command -v rsync) $conf $confbackup -aq --info=progress2 -hv;fi
         if [[ -f $conf ]];then $(command -v rsync) $confnew $conf -aq --info=progress2 -hv;fi
-        if [[ $authcheck == "true" ]];then $(command -v docker) restart authelia;fi
+        if [[ $authcheck == "true" ]];then $(command -v docker) restart authelia 1>/dev/null 2>&1;fi
         if [[ -f $conf ]];then $(command -v rm) -rf $confnew;fi
      fi
   fi
   if [[ ${section} == "mediaserver" || ${section} == "request" || ${section} == "downloadclients" ]];then $(command -v docker) restart ${typed} 1>/dev/null 2>&1;fi
 }
-
-backupcomposer() {
-  if [[ ! -d $basefolder/composebackup ]];then $(command -v mkdir) -p $basefolder/composebackup/;fi
-    tee <<-EOF
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    Backup composer file is being updated
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EOF
-  if [[ -d $basefolder/composebackup ]];then
-     docker=$($(command -v docker) ps -aq --format={{.Names}})
-     $(command -v docker) pull red5d/docker-autocompose 1>/dev/null 2>&1
-     $(command -v docker) run --rm -v /var/run/docker.sock:/var/run/docker.sock red5d/docker-autocompose $docker > $basefolder/composebackup/docker-compose.yml
-     $(command -v docker) image prune -af 1>/dev/null 2>&1
-  fi
-    tee <<-EOF
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    Backup composer file updated
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EOF
-}
 removeapp() {
 list=$($(command -v docker) ps -aq --format '{{.Names}}' | grep -vE 'auth|trae|cf-companion')
 tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    🚀 App Removal Menu
+    🚀   App Removal Menu
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 $list
-
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     [ EXIT or Z ] - Exit
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 EOF
   read -erp "↪️ Type App-Name to remove and Press [ENTER]: " typed </dev/tty
   if [[ $typed == "exit" || $typed == "Exit" || $typed == "EXIT" || $typed  == "z" || $typed == "Z" ]];then interface;fi
@@ -401,6 +598,7 @@ EOF
 deleteapp() {
   typed=${typed}
   basefolder="/opt/appdata"
+  storage="/mnt/downloads"
   source $basefolder/compose/.env
   conf=$basefolder/authelia/configuration.yml
   checktyped=$($(command -v docker) ps -aq --format={{.Names}} | grep -x $typed)
@@ -421,7 +619,18 @@ EOF
         folder=$basefolder/${typed}
     tee <<-EOF
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    ${typed} folder removal started
+   App ${typed} folder removal started
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EOF
+        for i in ${folder}; do
+            $(command -v rm) -rf $i 1>/dev/null 2>&1
+        done
+     fi
+     if [[ -d $storage/${typed} ]];then 
+        folder=$storage/${typed}
+    tee <<-EOF
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Storage ${typed} folder removal started
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
         for i in ${folder}; do
@@ -443,10 +652,33 @@ EOF
     ${typed} removal finished
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 EOF
-    sleep 2 && backupcomposer && removeapp
+    sleep 2 && removeapp
   else
      removeapp
   fi
+}
+updatecompose() {
+## existing 
+if [[ -x $(command -v docker-compose) ]];then 
+   COMPOSE_VERSION=$($(command -v curl) --silent -fsSL https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+   INSTALLED_COMPOSE=$( (docker-compose --version 2> /dev/null || echo "0") | sed -E 's/(\S+ )(version )?([0-9][a-zA-Z0-9_.-]*)(, build .*)?/\3/')
+   if [[ ${INSTALLED_COMPOSE} != ${COMPOSE_VERSION} ]];then
+      sh -c "curl --silent -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
+      sh -c "curl --silent -L https://raw.githubusercontent.com/docker/compose/${COMPOSE_VERSION}/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose"
+      if [[ ! -L "/usr/bin/docker-compose" ]];then $(command -v rm) -f /usr/bin/docker-compose && ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose;fi
+      $(command -v chmod) a=rx,u+w /usr/local/bin/docker-compose >/dev/null 2>&1 
+      $(command -v chmod) a=rx,u+w /usr/bin/docker-compose >/dev/null 2>&1
+   fi
+fi
+## not exist
+if [[ ! -x $(command -v docker-compose) ]];then 
+   COMPOSE_VERSION=$($(command -v curl) --silent -fsSL https://api.github.com/repos/docker/compose/releases/latest | grep 'tag_name' | cut -d\" -f4)
+   sh -c "curl --silent -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose"
+   sh -c "curl --silent -L https://raw.githubusercontent.com/docker/compose/${COMPOSE_VERSION}/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose"
+   if [[ ! -L "/usr/bin/docker-compose" ]];then $(command -v rm) -f /usr/bin/docker-compose && ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose;fi
+   $(command -v chmod) a=rx,u+w /usr/local/bin/docker-compose >/dev/null 2>&1 
+   $(command -v chmod) a=rx,u+w /usr/bin/docker-compose >/dev/null 2>&1
+fi
 }
 ##########
 appstartup

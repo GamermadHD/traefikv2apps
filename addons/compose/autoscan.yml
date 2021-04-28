@@ -8,8 +8,8 @@ services:
       - 'PGID=${ID}'
       - 'PUID=${ID}'
       - 'TZ=${TZ}'
-      - 'AUTOSCAN_VERBOSITY=1'
-    image: 'cloudb0x/autoscan'
+      - 'AUTOSCAN_VERBOSITY=0'
+    image: 'cloudb0x/autoscan:master'
     restart: 'unless-stopped'
     ports:
       - '127.0.0.1:3030:3030'

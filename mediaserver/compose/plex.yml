@@ -29,9 +29,10 @@ services:
         mode: host
     volumes:
       - '/etc/localtime:/etc/localtime:ro'
-      - 'tmpfs:/transcode:rw'
       - '/opt/appdata/plex/database:/config:rw'
       - 'unionfs:/mnt:ro'
+    tmpfs:
+      - '/transcode:rw'
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'
@@ -54,4 +55,3 @@ volumes:
     driver: local-persist
     driver_opts:
       mountpoint: /mnt
-  tmpfs:

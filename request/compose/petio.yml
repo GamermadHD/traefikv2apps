@@ -5,12 +5,15 @@ services:
   petio:
     hostname: 'petio'
     container_name: 'petio'
+    user: '${ID}:${ID}'
     environment:
       - 'PGID=${ID}'
       - 'PUID=${ID}'
       - 'TZ=${TZ}'
     image: 'ghcr.io/petio-team/petio:latest'
     restart: 'unless-stopped'
+    depends_on:
+      - 'mongo'
     ports:
       - '127.0.0.1:7444:7777'
     networks:
@@ -18,8 +21,8 @@ services:
     security_opt:
       - 'no-new-privileges:true'
     volumes:
-      - 'petio/config:/app/api/config'
-      - 'petio/logs:/app/logs'
+      - '/opt/appdata/petio/config:/app/api/config'
+      - '/opt/appdata/petio/logs:/app/logs'
     labels:
       - 'traefik.enable=true'
       - 'traefik.docker.network=proxy'
@@ -36,21 +39,13 @@ services:
     hostname: 'petiomongo'
     image: 'mongo:latest'
     container_name: 'petiomongo'
-    depends_on:
-      - petio
     ports:
-      - '127.0.0.1:27055:27017'
+      - '27017:27017'
     networks:
       - proxy
     user: '${ID}:${ID}'
     volumes:
-      - 'petio/db:/data/db'
-
-volumes:
-  petio:
-    driver: local-persist
-    driver_opts:
-      mountpoint: /opt/appdata/petio
+      - '/opt/appdata/petio/db:/data/db'
 
 networks:
   proxy:

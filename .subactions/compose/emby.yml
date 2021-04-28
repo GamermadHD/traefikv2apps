@@ -2,7 +2,6 @@
 #
 # Title:      emby Subtask
 # Author(s):  MrDoob
-# URL:        https://sudobox.io
 # GNU:        General Public License v3.0
 ################################################################################
 ---
@@ -12,106 +11,24 @@
     - name: 'Set Known Facts'
       set_fact:
         app: 'emby'
-
     - name: 'XML Check'
       stat:
         path: /opt/appdata/{{app}}/config/system.xml
       register: xmlcheck
-
     - name: 'Configuring {{app}} for first time use'
       block:
-
         - name: 'Pending XML Generation'
           wait_for:
             path: '/opt/appdata/{{app}}/config/system.xml'
             state: present
-
         - name: 'Wait 5 Seconds'
           wait_for:
             timeout: 5
-
         - name: 'Stop {{app}}'
           shell: 'docker stop {{app}}'
-
         - name: 'Turn Off Reporting'
           xml:
             path: '/opt/appdata/{{app}}/config/system.xml'
             xpath: /ServerConfiguration/EnableAnonymousUsageReporting
             value: 'false'
-
-        - name: 'Restart {{app}}'
-          shell: 'docker restart {{app}}'
       when: xmlcheck.stat.exists
-
-     ##### Db edits
-    - name: "Install package for {{app}}-db Cache size Fix"
-      apt:
-        name: "{{ packages }}"
-        state: latest
-        update_cache: yes
-      vars:
-        packages:
-        - sqlite3
-
-    - name: 'Get Current {{app}} DB Cache Size'
-      shell: |
-        sqlite3 "/opt/appdata/emby/data/library.db" \
-        "PRAGMA default_cache_size;"
-      args:
-        executable: /bin/bash
-      register: current_db_cache_size
-
-    - name: Set 'default_db_cache_size' variable
-      set_fact:
-        default_db_cache_size: '60000'
-
-    - name: Check if 'emby.db_cache_size' was specified
-      set_fact:
-        db_cache_size_is_specified: "{{ true if not (
-            (emby.db_cache_size is undefined)
-            or
-            (emby.db_cache_size is none)
-            or
-            (emby.db_cache_size | trim | length == 0)
-          )
-          else false }}"
-
-    - name: 'Get Desired {{app}} DB Cache Size'
-      set_fact:
-        desired_db_cache_size: "{{ default_db_cache_size
-          if ( (not db_cache_size_is_specified) or (emby.db_cache_size == 'default') )
-          else ( (emby.db_cache_size) | regex_replace(',', '') | int ) }}"
-
-    - name: 'Make {{app}} DB Edits'
-      block:
-
-      - name: 'Stop {{app}} Container'
-        shell: 'docker stop {{app}}'
-        when: ('emby_db_cache_size' in ansible_run_tags)
-
-      - name: Display Desired emby DB Cache Size
-        debug:
-          msg: "Desired emby DB Cache Size is '{{ desired_db_cache_size }}'"
-
-      - name: "Set {{app}} DB Cache Size"
-        shell: |
-          sqlite3 "/opt/appdata/emby/data/library.db" \
-            "PRAGMA default_cache_size = '{{ desired_db_cache_size | int }}';"
-        args:
-          executable: /bin/bash
-
-      - name: 'Get New {{app}} DB Cache Size'
-        shell: |
-          sqlite3 "/opt/appdata/emby/data/library.db" \
-            "PRAGMA default_cache_size;"
-        args:
-          executable: /bin/bash
-        register: new_db_cache_size
-
-      - name: 'Display New {{app}} DB Cache Size'
-        debug:
-          msg: "emby DB cache size is now set to '{{ new_db_cache_size.stdout | int }}'."
-
-      - name: 'Start {{app}} Container'
-        shell: 'docker start {{app}}'
-        when: ('emby_db_cache_size' in ansible_run_tags)

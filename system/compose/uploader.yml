@@ -12,7 +12,7 @@ services:
       - 'PGID=${ID}'
       - 'PUID=${ID}'
       - 'TZ=${TZ}'
-    image: 'ghcr.io/doob187/uploader'
+    image: 'ghcr.io/doob187/uploaderv2'
     restart: 'unless-stopped'
     ports:
       - '127.0.0.1:7777:8080'

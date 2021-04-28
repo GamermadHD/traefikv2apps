@@ -1,0 +1,39 @@
+---
+version: '3'
+services:
+  nextcloud:
+    hostname: 'nextcloud'
+    container_name: 'nextcloud'
+    environment:
+      - 'PGID=${ID}'
+      - 'PUID=${ID}'
+      - 'TZ=${TZ}'
+      - 'UMASK=022'
+    image: 'ghcr.io/linuxserver/nextcloud'
+    restart: 'unless-stopped'
+    ports:
+      - '127.0.0.1:4551:443'
+    networks:
+      - proxy
+    security_opt:
+      - 'no-new-privileges:true'
+    volumes:
+      - '/opt/appdata/nextcloud/data:/data'
+      - '/opt/appdata/nextcloud/conf:/conf'
+      - '/etc/localtime:/etc/localtime:ro'
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.docker.network=proxy'
+      - 'dockupdater.enable=true'
+      - 'traefik.http.routers.nextcloud-rtr.entrypoints=https'
+      - 'traefik.http.routers.nextcloud-rtr.rule=Host(`nextcloud.${DOMAIN}`)'
+      - 'traefik.http.routers.nextcloud-rtr.tls=true'
+      - 'traefik.http.routers.nextcloud-rtr.tls.certresolver=dns-cloudflare'
+      - 'traefik.http.routers.nextcloud-rtr.middlewares=chain-authelia@file'
+      - 'traefik.http.routers.nextcloud-rtr.service=nextcloud-svc'
+      - 'traefik.http.services.nextcloud-svc.loadbalancer.server.port=443'
+
+networks:
+  proxy:
+    driver: bridge
+    external: true
